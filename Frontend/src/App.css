@@ -1,0 +1,58 @@
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px;
+}
+
+.category-card {
+  background-color: #fff8f2;
+  border: 1px solid #ffddb0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+}
+
+.category-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+h3 {
+  color: #ff6f61;
+  margin-top: 10px;
+}
+
+.App {
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-align: center;
+  background-color: #fff5f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background-color: #ff6f61;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.App-footer {
+  background-color: #ffddb0;
+  padding: 10px;
+  margin-top: auto;
+  color: #6e6e6e;
+}
