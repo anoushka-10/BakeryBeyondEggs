@@ -20,7 +20,7 @@ const SubcategoriesPage = () => {
 
     // Fetch items for the selected category
     axios
-      .get(`http://localhost:8093/categories/${categoryName}/items`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/${categoryName}/items`)
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error fetching category items:", error))
       .finally(() => setLoading(false));
