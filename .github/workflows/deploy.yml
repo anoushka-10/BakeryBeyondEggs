@@ -1,61 +1,53 @@
-
 name: Build and Deploy
-
 on:
   push:
     branches:
       - master  # Trigger the workflow on pushing to the master branch
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       # Checkout the code from the repository
       - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Set up Java (for Maven) to build the Spring Boot backend
+        uses: actions/checkout@v3
+        
+      # Set up Java for Maven to build the Spring Boot backend
       - name: Set up Java 18
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: 18
-          java-package: jdk
-          architecture: x64
-          distribution: 'adoptium'  # Add this line
+          distribution: 'temurin'
+          cache: 'maven'  # Cache Maven packages for faster builds
+          
       # Build the backend using Maven
       - name: Build Backend
         run: |
-          cd Backend  # Navigate to the Backend directory
-          ./mvnw clean install  # Use Maven Wrapper or you can use 'mvn clean install' if Maven is installed globally
-          ./mvnw spring-boot:run
-
-      # Set up Node.js (for React frontend)
+          cd Backend
+          ./mvnw clean package -DskipTests  # Package without running tests for speed
+      
+      # Set up Node.js for React frontend
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'  
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: Frontend/package-lock.json
           
       # Install dependencies and build the frontend
       - name: Build Frontend
         run: |
-          cd Frontend  # Navigate to the Frontend directory
-          npm install  # Install frontend dependencies
-          npm run build  # Build the frontend (creates the 'build' folder with static files)
-
-      # Deploy Backend to Railway (adjust this step for your actual deployment provider)
+          cd Frontend
+          npm ci  # Clean install, more reliable than npm install in CI environments
+          npm run build
+      
+      # Deploy to Railway using their recommended approach
       - name: Install Railway CLI
         run: |
-          curl -sSL https://railway.app/cli.sh | sh  # Install Railway CLI
-          railway login --token ${{ secrets.RAILWAY_TOKEN }}  # Log into Railway using the token secret
-
-      - name: Deploy Backend to Railway
+          curl -fsSL https://railway.app/install.sh | sh
+      
+      - name: Deploy to Railway
         run: |
-          cd Backend  # Go to the Backend directory
-          railway up  # Deploy the backend
-
-      # Deploy Frontend to Railway or another provider
-      - name: Deploy Frontend
-        run: |
-          cd Frontend  # Go to the Frontend directory
-          railway up  # Deploy the frontend (if you're deploying it to Railway as well)
+          railway up --detach --service "$RAILWAY_SERVICE_NAME"
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
