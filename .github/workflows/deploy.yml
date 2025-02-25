@@ -22,7 +22,7 @@ jobs:
           java-version: 18
           java-package: jdk
           architecture: x64
-          distribution: 'adoptopenjdk'  # Add this line
+          distribution: 'adoptium'  # Add this line
       # Build the backend using Maven
       - name: Build Backend
         run: |
