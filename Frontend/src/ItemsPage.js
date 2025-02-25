@@ -4,7 +4,7 @@ import axios from "axios";
 import "./ItemsPage.css"; // Custom CSS for styling
 
 const ItemsPage = () => {
-  const { categoryName, subcategoryName } = useParams(); // Get both category and subcategory from URL
+  const {  subcategoryName } = useParams(); // Get both category and subcategory from URL
   const [items, setItems] = useState([]); // State to hold items
   const [error, setError] = useState(null); // State for error handling
   const [loading, setLoading] = useState(true); // State for loading
