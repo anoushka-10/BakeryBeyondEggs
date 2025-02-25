@@ -8,7 +8,7 @@ const SubcategoriesPage = () => {
   const [subcategories, setSubcategories] = useState([]); // State to hold subcategories
   const [items, setItems] = useState([]); // State to hold items of the category
   const [ setLoading] = useState(true); // Loading state to manage async requests
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null); // To track selected subcategory
+  const [ setSelectedSubcategory] = useState(null); // To track selected subcategory
   const navigate = useNavigate(); // Use navigate hook for programmatic navigation
 
   useEffect(() => {
