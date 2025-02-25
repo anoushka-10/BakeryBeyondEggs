@@ -26,6 +26,7 @@ jobs:
         run: |
           cd Backend  # Navigate to the Backend directory
           ./mvnw clean install  # Use Maven Wrapper or you can use 'mvn clean install' if Maven is installed globally
+          ./mvnw spring-boot:run
 
       # Set up Node.js (for React frontend)
       - name: Set up Node.js
