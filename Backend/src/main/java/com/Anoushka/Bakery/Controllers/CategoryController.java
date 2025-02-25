@@ -18,7 +18,7 @@ import com.Anoushka.Bakery.Services.SubcategoryService;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin(origins = "http://localhost:3000") // Allow requests from React app
+@CrossOrigin(origins = "${cors.allowed.origins}"") // Allow requests from React app
 
 public class CategoryController {
 	@Autowired
