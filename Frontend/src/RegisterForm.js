@@ -30,7 +30,7 @@ const RegisterForm = () => {
     setError("");
     setResponseMessage("");
     try {
-      await axios.post("http://localhost:8093/register", formData);
+      await axios.post("${process.env.REACT_APP_API_URL}/register", formData);
       setResponseMessage("Registration successful! Please check your email for the verification code.");
       setIsVerifying(true);
     } catch (error) {
@@ -40,7 +40,7 @@ const RegisterForm = () => {
 
   const handleVerify = async () => {
     try {
-      await axios.post("http://localhost:8093/verify", {
+      await axios.post("${process.env.REACT_APP_API_URL}/verify", {
         email: formData.email,
         code: verificationCode,
       });
