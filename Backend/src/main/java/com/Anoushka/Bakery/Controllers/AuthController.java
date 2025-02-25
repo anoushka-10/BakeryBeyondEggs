@@ -25,7 +25,7 @@ import com.Anoushka.Bakery.Services.EmailService;
 import com.Anoushka.Bakery.Services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "${cors.allowed.origins}") 
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
