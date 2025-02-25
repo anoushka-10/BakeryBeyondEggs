@@ -23,6 +23,7 @@ jobs:
       - name: Build Backend
         run: |
           cd Backend
+           chmod +x ./mvnw
           ./mvnw clean package -DskipTests  # Package without running tests for speed
       
       # Set up Node.js for React frontend
