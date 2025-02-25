@@ -12,7 +12,7 @@ import com.Anoushka.Bakery.Models.Item;
 import com.Anoushka.Bakery.Services.ItemService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${cors.allowed.origins}")
 public class SubcategoryController {
 	@Autowired
 	private ItemService itemservice;

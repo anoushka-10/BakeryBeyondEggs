@@ -14,13 +14,13 @@ const SubcategoriesPage = () => {
   useEffect(() => {
     // Fetch subcategories for the selected category
     axios
-      .get(`http://localhost:8093/categories/${categoryName}/subcategories`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/${categoryName}/subcategories`)
       .then((response) => setSubcategories(response.data))
       .catch((error) => console.error("Error fetching subcategories:", error));
 
     // Fetch items for the selected category
     axios
-      .get(`http://localhost:8093/categories/${categoryName}/items`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/${categoryName}/items`)
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error fetching category items:", error))
       .finally(() => setLoading(false));
@@ -29,7 +29,7 @@ const SubcategoriesPage = () => {
   const handleSubcategoryClick = (subcategoryName) => {
     navigate(`/subcategories/${subcategoryName}/items`);
     axios
-      .get(`http://localhost:8093/subcategories/${subcategoryName}/items`)
+      .get(`${process.env.REACT_APP_API_URL}/subcategories/${subcategoryName}/items`)
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error fetching items for subcategory:", error));
     setSelectedSubcategory(subcategoryName);
