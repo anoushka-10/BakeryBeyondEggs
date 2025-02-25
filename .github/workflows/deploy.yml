@@ -16,11 +16,13 @@ jobs:
         uses: actions/checkout@v2
 
       # Set up Java (for Maven) to build the Spring Boot backend
-      - name: Set up JDK 18
+      - name: Set up Java 18
         uses: actions/setup-java@v2
         with:
-          java-version: '18'
-
+          java-version: 18
+          java-package: jdk
+          architecture: x64
+          distribution: 'adoptopenjdk'  # Add this line
       # Build the backend using Maven
       - name: Build Backend
         run: |
