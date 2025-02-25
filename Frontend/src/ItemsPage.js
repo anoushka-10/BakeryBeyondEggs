@@ -13,7 +13,7 @@ const ItemsPage = () => {
     // Fetch items for the selected subcategory
     setLoading(true); // Start loading
     axios
-      .get(`http://localhost:8093/subcategories/${subcategoryName}/items`) // Backend API to get items for a subcategory
+      .get(`${process.env.REACT_APP_API_URL}/subcategories/${subcategoryName}/items`) // Backend API to get items for a subcategory
       .then((response) => {
         setItems(response.data); // Set items in state
         setError(null); // Reset error state
