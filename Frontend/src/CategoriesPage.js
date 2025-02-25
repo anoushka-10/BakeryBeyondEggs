@@ -11,7 +11,7 @@ function CategoriesPage() {
   useEffect(() => {
     // Fetch categories from the backend
     axios
-      .get("http://localhost:8093/categories") // Your backend API endpoint for categories
+      .get("${process.env.REACT_APP_API_URL}/categories") // Your backend API endpoint for categories
       .then((response) => setCategories(response.data)) // Set categories in state
       .catch(() => setError("Failed to load categories.")); // Handle error
   }, []); // Empty array means it will run only once on component mount
