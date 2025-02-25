@@ -14,7 +14,7 @@ const SubcategoriesPage = () => {
   useEffect(() => {
     // Fetch subcategories for the selected category
     axios
-      .get(`http://localhost:8093/categories/${categoryName}/subcategories`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/${categoryName}/subcategories`)
       .then((response) => setSubcategories(response.data))
       .catch((error) => console.error("Error fetching subcategories:", error));
 
