@@ -24,7 +24,7 @@ const SubcategoriesPage = () => {
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error fetching category items:", error))
       .finally(() => setLoading(false));
-  }, [categoryName]);
+  }, [categoryName, setLoading]);
 
   const handleSubcategoryClick = (subcategoryName) => {
     navigate(`/subcategories/${subcategoryName}/items`);
