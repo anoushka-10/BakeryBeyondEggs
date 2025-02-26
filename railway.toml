@@ -1,7 +1,11 @@
-[build]
-builder = "nixpacks"
-buildCommand = "cd Backend && ./mvnw package -DskipTests"
+[phases.setup]
+nixPkgs = ["maven", "jdk"]
 
-[deploy]
-startCommand = "cd Backend && java -jar target/*.jar"
-healthcheckPath = "/"
+[phases.build]
+cmds = [
+  "cd Backend",
+  "mvn clean package -DskipTests"
+]
+
+[start]
+cmd = "cd Backend && java -jar target/*.jar"
