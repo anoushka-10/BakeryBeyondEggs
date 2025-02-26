@@ -1,0 +1,7 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd Backend && ./mvnw package -DskipTests"
+
+[deploy]
+startCommand = "cd Backend && java -jar target/*.jar"
+healthcheckPath = "/"
