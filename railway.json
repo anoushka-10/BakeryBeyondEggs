@@ -1,0 +1,17 @@
+{
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "cd Backend && mvn clean package -DskipTests"
+  },
+  "deploy": {
+    "startCommand": "cd Backend && java -jar target/*.jar",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "on_failure"
+  },
+  "nixpacks": {
+    "jdk": {
+      "version": "21"
+    }
+  }
+}
