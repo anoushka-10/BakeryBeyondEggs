@@ -1,1 +1,16 @@
+[phases.setup]
+nixPkgs = ["maven", "jdk_21"]
+nixLibs = ["zlib"]
+aptPkgs = ["zlib1g-dev"]
 
+[phases.build]
+cmds = [
+  "cd Backend",
+  "mvn clean package -DskipTests"
+]
+
+[start]
+cmd = "cd Backend && java -jar target/*.jar"
+
+[variables]
+MAVEN_OPTS = "-Xmx512m"
