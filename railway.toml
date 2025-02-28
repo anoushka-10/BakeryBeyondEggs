@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["maven", "jdk"]
+nixPkgs = ["maven", "jdk21"]
 
 [phases.build]
 cmds = [
