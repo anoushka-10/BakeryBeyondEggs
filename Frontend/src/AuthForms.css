@@ -1,0 +1,343 @@
+/* AuthForms.css - Styles for Login and Registration Forms */
+
+/* Container for the entire form */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card styling */
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header section */
+.auth-header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+}
+
+.auth-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.auth-subtitle {
+  color: #777;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Form styling */
+.auth-form {
+  padding: 1rem 2rem 2rem;
+  margin-right: 20px;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #e91e63;
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.form-input::placeholder {
+  color: #aaa;
+}
+
+/* Button styling */
+.auth-button {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #e91e63;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-button:hover {
+  background-color: #d81b60;
+}
+
+.auth-button:active {
+  transform: translateY(1px);
+}
+
+.auth-button:disabled {
+  background-color: #f8bbd0;
+  cursor: not-allowed;
+}
+
+.auth-button.loading {
+  background-color: #e03e73;
+}
+
+/* Spinner for loading state */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s ease infinite;
+  margin-right: 0.75rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Links section */
+.auth-links {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.auth-links a,
+.forgot-password a,
+.resend-code a {
+  color: #e91e63;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.auth-links a:hover,
+.forgot-password a:hover,
+.resend-code a:hover {
+  color: #c2185b;
+  text-decoration: underline;
+}
+
+/* Forgot password link */
+.forgot-password {
+  text-align: right;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Verification container */
+.verification-container {
+  padding: 1rem 2rem 2rem;
+}
+
+.resend-code {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Messages */
+.auth-message {
+  margin: 1rem 2rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.auth-message.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
+.auth-message.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .auth-card {
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .auth-container {
+    padding: 0;
+    background-color: white;
+  }
+  
+  .auth-header,
+  .auth-form,
+  .verification-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .auth-message {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}
+
+/* Additional styles for verification code input */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Email verification specific styles */
+.code-input-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.code-input {
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.code-input:focus {
+  border-color: #e91e63;
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+  outline: none;
+}
+
+.verification-success {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.verification-success-icon {
+  color: #4caf50;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.verification-success-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.verification-success-message {
+  color: #777;
+  margin-bottom: 1.5rem;
+}
+
+.back-to-login {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e91e63;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.back-to-login:hover {
+  background-color: #d81b60;
+}
+
+.back-to-login svg {
+  margin-right: 0.5rem;
+}
+
+.verification-email {
+  font-weight: 600;
+  color: #333;
+}
+
+.timer-text {
+  display: inline-block;
+  min-width: 2rem;
+  font-weight: 600;
+}
+
+/* Enhanced animation for the success state */
+@keyframes success-animation {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-animation {
+  animation: success-animation 0.6s ease-out forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .code-input {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+}

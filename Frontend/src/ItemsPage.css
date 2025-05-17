@@ -1,50 +1,56 @@
+/* Clean and consolidated CSS for ItemsPage */
+
 .items-container {
   padding: 20px;
-  background-color: #257180;
-  clear: both; 
+  width: 100%;
+  margin: 0;
+  background-color: #257180; /* Restored the teal color */
+  clear: both;
 }
 
 .items-container h2 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
-  display: block;
-
 }
 
 .highlight {
-  color: #ff006e; /* Highlighted color for category and subcategory names */
+  color: #e67e22;
+  font-weight: bold;
 }
 
 .items-list {
   display: grid;
-  flex-wrap: wrap; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increase min-width for each card */
-  gap: 20px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
   margin-top: 20px;
 }
 
 .item-card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  text-align: center;
-  width: 300px; /* Increase the width of the card */
-  background-color: white;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  padding: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 400px; /* Added minimum height to accommodate larger images */
 }
 
 .item-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .item-image {
   width: 100%;
-  height: 250px;
-  object-fit: cover; /* Ensures the image is scaled correctly */
-  border-radius: 8px; /* Optional: for rounded corners */
+  height: 250px; /* Increased height from 200px to 250px */
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
 
 .item-card h4 {
@@ -55,16 +61,95 @@
 
 .item-card p {
   font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.loading-message, .error-message {
+  text-align: center;
+  margin: 40px 0;
+  font-size: 18px;
 }
 
 .error-message {
-  text-align: center;
-  font-size: 18px;
-  color: red;
+  color: #e74c3c;
 }
 
-.loading-message {
+.product-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.weight-selector select {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  width: 150px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-input {
+  width: 50px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
   text-align: center;
+  font-size: 14px;
+}
+
+.add-to-cart {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   font-size: 18px;
-  color: #007bff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart:hover {
+  background-color: #d35400;
+}
+/* 
+FEEDBACK MESSAGE */
+.feedback-message {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeOut 0.5s ease-in-out 2.5s forwards; /* fade out after 2.5s */
+}
+
+.feedback-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.feedback-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+  }
 }

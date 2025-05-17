@@ -13,8 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Anoushka.Bakery.JwtUtil;
@@ -38,7 +40,7 @@ public class AuthController {
     
     @Autowired
     private EmailService emailservice;
-;
+
     
     public AuthController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -47,15 +49,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-        	System.out.println("Attempting login for username: " + loginRequest.getUsername());
+        	System.out.println("Attempting login for username: " + loginRequest.getEmail());
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                    loginRequest.getUsername(),
+                    loginRequest.getEmail(),
                     loginRequest.getPassword()
                 )
             );
             
-            User user = userService.findByUsername(loginRequest.getUsername());
+            User user = userService.findbymail(loginRequest.getEmail());
             if(user==null || !user.isVerified()) {
             	return ResponseEntity.status(HttpStatus.FORBIDDEN).body("email not verified");
             }
@@ -130,7 +132,14 @@ public class AuthController {
 
         return ResponseEntity.ok().body("Email verified successfully.");
     }
-
+    
+    @GetMapping("/name")
+    public ResponseEntity<String> getNameFromToken(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        String name = Jwtutil.extractName(token);
+        return ResponseEntity.ok(name);
+    }
+    
     
     
 }

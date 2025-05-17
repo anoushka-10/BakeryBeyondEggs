@@ -1,73 +1,133 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./AuthForms.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  const redirectPath = new URLSearchParams(location.search).get("redirect") || "/";
+  
   const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // Reset the error message before trying to log in again
     setErrorMessage("");
     setSuccessMessage("");
-
+    setIsLoading(true);
+    
     try {
-      // Make the login request to the backend
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
-        username,
-        password,
-    }, {
-        headers: {
-          'Content-Type': 'application/json', // Ensure this header is set
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          email,
+          password,
         },
-      });
-
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      
       const { token } = response.data;
       localStorage.setItem("authToken", token);
       setSuccessMessage("Login successful!");
-      
-      
-
-      // If login is successful, log the response and you can redirect to another page if needed
       console.log("Login successful:", response.data);
-      <label>Login successful</label>
-      // You can set a success message or redirect the user
+      
+      // Navigate to where the user was before login
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 1000);
     } catch (error) {
-      // If login fails, display the error message from the response
       console.error("Login failed:", error.response?.data || "Unknown error");
-      setErrorMessage(error.response?.data || "Login failed");
+      setErrorMessage(error.response?.data?.message || "Invalid email or password");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h2>Welcome Back</h2>
+          <p className="auth-subtitle">Please sign in to your account</p>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+        
+        <form className="auth-form" onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="form-input"
+              placeholder="Enter your email"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="form-input"
+              placeholder="Enter your password"
+            />
+            <div className="forgot-password">
+              <a href="/forgot-password">Forgot password?</a>
+            </div>
+          </div>
+          
+          <button 
+            type="submit" 
+            className={`auth-button ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className="spinner"></span>
+                <span>Signing in...</span>
+              </>
+            ) : (
+              "Sign In"
+            )}
+          </button>
+          
+          <div className="auth-links">
+            <p>
+              Don't have an account? <a href="/register">Register now</a>
+            </p>
+          </div>
+        </form>
+        
+        {errorMessage && (
+          <div className="auth-message error">
+            {errorMessage}
+          </div>
+        )}
+        
+        {successMessage && (
+          <div className="auth-message success">
+            {successMessage}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

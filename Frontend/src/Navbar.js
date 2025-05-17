@@ -1,16 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import axios from "axios";
 
 function Navbar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [subDropdownVisible, setSubDropdownVisible] = useState(false);
+  const[name, setName]=useState("");
+
+  useEffect(()=>{
+    const token =localStorage.getItem("authToken");
+    if(token){
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/name`,{
+          headers:{
+            Authorization:`Bearer ${token}`
+          },
+        })
+        .then((res)=>{
+          setName(res.data);
+        })
+        .catch((err)=>{
+          console.error("Error fetching name:", err);
+          localStorage.removeItem("token");
+        });
+    }
+  },[]);
+
+  const isLoggedIn = !!localStorage.getItem("authToken");
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
         <img
-          src="/path-to-your-logo/logo.png"
+          src="/images/Logo.jpg"
           alt="BakeryBeyondEggs Logo"
           className="navbar-logo"
         />
@@ -60,17 +83,54 @@ function Navbar() {
               <li>
                 <Link to="/categories" className="dropdown-link">View All</Link>
               </li>
+             
             </ul>
           )}
         </li>
         <li>
           <Link to="/gift-options" className="navbar-link">Gift Options</Link>
         </li>
-        <li><Link to="/login" className="navbar-link">Login</Link></li>
-        <li><Link to="/registerform" className="navbar-link">Register</Link></li>
+          <li>
+                <Link to="/cart" className="navbar-link">Cart</Link>
+              </li>
+        {/* <li><Link to="/login" className="navbar-link">Login</Link></li>
+        <li><Link to="/registerform" className="navbar-link">Register</Link></li> */}
+       {isLoggedIn ? (
+  <>
+    <li className="navbar-link">Welcome, {name}!</li>
+    <li>
+      <button
+        className="navbar-link logout-button"
+        onClick={() => {
+          localStorage.removeItem("authToken");
+          window.location.reload(); // refresh to update navbar or use navigate
+        }}
+      >
+        Logout
+      </button>
+    </li>
+  </>
+) : (
+  <>
+    <li>
+      <Link to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} className="navbar-link">
+        Login
+      </Link>
+    </li>
+    <li>
+      <Link to="/registerform" className="navbar-link">
+        Register
+      </Link>
+    </li>
+  </>
+)}
+
+
       </ul>
     </nav>
+    
   );
 }
 
 export default Navbar;
+                                                    
