@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./RegisterForm.css";
+import "./AuthForms.css";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ const RegisterForm = () => {
     name: "",
     phone: "",
   });
-
   const [responseMessage, setResponseMessage] = useState("");
   const [error, setError] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -32,7 +31,9 @@ const RegisterForm = () => {
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData);
       setResponseMessage("Registration successful! Please check your email for the verification code.");
-      setIsVerifying(true);
+      localStorage.setItem("pendingVerificationEmail", formData.email);
+       navigate(`/verify?email=${encodeURIComponent(formData.email)}`);
+     
     } catch (error) {
       setError(error.response?.data || "An error occurred during registration.");
     }
@@ -53,40 +54,92 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-title">Register</h2>
-      {!isVerifying ? (
-        <form onSubmit={handleSubmit} className="form-content">
-          {Object.keys(formData).map((key) => (
-            <div key={key} className="form-group">
-              <label className="form-label">{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h2>{!isVerifying ? "Create an Account" : "Verify Your Email"}</h2>
+          <p className="auth-subtitle">
+            {!isVerifying 
+              ? "Please fill in the information below" 
+              : "Enter the verification code sent to your email"}
+          </p>
+        </div>
+
+        {!isVerifying ? (
+          <form className="auth-form" onSubmit={handleSubmit}>
+  {Object.keys(formData).map((key) => (
+    <div className="form-group" key={key}>
+      <label htmlFor={key} className="form-label">
+        {key.charAt(0).toUpperCase() + key.slice(1)}
+      </label>
+      <input
+        type={key === "password" ? "password" : key === "email" ? "email" : "text"}
+        id={key}
+        name={key}
+        value={formData[key]}
+        onChange={handleChange}
+        required
+        className="form-input"
+        placeholder={`Enter your ${key}`}
+      />
+    </div>
+  ))}
+
+  <button type="submit" className="auth-button">
+    Register
+  </button>
+
+  <div className="auth-links">
+    <p>
+      Already have an account? <a href="/login">Sign in</a>
+    </p>
+  </div>
+
+  {/* {responseMessage && <div className="auth-message success">{responseMessage}</div>}
+  {error && <div className="auth-message error">{error}</div>} */}
+</form>
+
+        ) : (
+          <div className="verification-container">
+            <div className="form-group">
+              <label htmlFor="verificationCode" className="form-label">
+                Verification Code
+              </label>
               <input
-                type={key === "password" ? "password" : "text"}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
+                type="text"
+                id="verificationCode"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
                 required
                 className="form-input"
+                placeholder="6-digit code"
               />
             </div>
-          ))}
-          <button type="submit" className="form-button">Register</button>
-        </form>
-      ) : (
-        <div className="verification-section">
-          <h3 className="verification-title">Enter Verification Code</h3>
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-            required
-            className="form-input"
-          />
-          <button onClick={handleVerify} className="form-button verify-button">Verify</button>
-        </div>
-      )}
-      {responseMessage && <p className="success-message">{responseMessage}</p>}
-      {error && <p className="error-message">{error}</p>}
+            
+            <button onClick={handleVerify} className="auth-button">
+              Verify
+            </button>
+            
+            <div className="resend-code">
+              <p>
+                Didn't receive the code? <a href="#" onClick={(e) => { e.preventDefault(); handleSubmit(e); }}>Resend</a>
+              </p>
+            </div>
+          </div>
+        )}
+        
+        {responseMessage && (
+          <div className="auth-message success">
+            {responseMessage}
+          </div>
+        )}
+        
+        {error && (
+          <div className="auth-message error">
+            {error}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

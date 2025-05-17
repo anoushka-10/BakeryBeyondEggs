@@ -13,9 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.Anoushka.Bakery.CustomDetailsService;
 
 
 
@@ -23,14 +24,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	
+//	@Autowired
+//	private UserDetailsService userDetailsService;
+	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private CustomDetailsService customDetailsservice;
 	
 	@Bean
 	public AuthenticationProvider authprovider() {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(userDetailsService);
+		provider.setUserDetailsService(customDetailsservice);
 		provider.setPasswordEncoder(passwordEncoder());
 		return provider;
 	}
@@ -39,7 +43,7 @@ public class SecurityConfig {
 	@Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
+                .userDetailsService(customDetailsservice)
                 .passwordEncoder(passwordEncoder())
                 .and().build();
     }

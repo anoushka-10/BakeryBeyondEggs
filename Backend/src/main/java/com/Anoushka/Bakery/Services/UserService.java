@@ -17,7 +17,7 @@ public class UserService {
     }
 
     public boolean isEmailTaken(String email) {
-        return userrepo.findByEmail(email) != null;
+        return userrepo.findByEmailIgnoreCase(email) != null;
     }
 
     public boolean isUsernameTaken(String username) {
@@ -30,6 +30,7 @@ public class UserService {
 
 	public User findbymail(String email) {
 		// TODO Auto-generated method stub
-		return userrepo.findByEmail(email);
+		return userrepo.findByEmailIgnoreCase(email);
 	}
+
 }
