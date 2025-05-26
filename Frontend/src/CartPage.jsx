@@ -120,12 +120,74 @@ const CartPage = () => {
     return calculateSubtotal() + calculateShipping();
   };
 
+  // WhatsApp formatting utility functions
+  const formatWhatsAppMessage = () => {
+    const itemsToCheckout = cart.items.filter((_, index) =>
+      selectedItems.includes(index)
+    );
+
+    const subtotal = calculateSubtotal();
+    const shipping = calculateShipping();
+    const total = calculateTotal();
+
+    // Use WhatsApp text formatting:
+    // *bold* _italic_ ~strikethrough~ ```monospace```
+    // We'll also use Unicode symbols that are well-supported across devices
+    
+    let message = "* NEW ORDER REQUEST*\n\n";
+    
+    // Items section with better formatting
+    message += "*📋 ORDER ITEMS:*\n";
+    
+    itemsToCheckout.forEach((itemWrapper, idx) => {
+      const name = itemWrapper.item.name;
+      const quantity = itemWrapper.quantity;
+      const unitPrice = itemWrapper.weightPrice.price;
+      const totalPrice = unitPrice * quantity;
+      
+      message += `${idx + 1}. *${name}*\n`;
+      message += `   • Qty: ${quantity} × ₹${unitPrice} = ₹${totalPrice}\n`;
+    });
+    
+    // Price details with clean formatting
+    message += "\n* PRICE SUMMARY:*\n";
+    message += `• Subtotal: ₹${subtotal.toFixed(2)}\n`;
+    message += `• Shipping: ₹${shipping.toFixed(2)}${shipping === 0 ? ' ✓ FREE' : ''}\n`;
+    message += `• *TOTAL AMOUNT: ₹${total.toFixed(2)}*\n`;
+    
+    // Customer details section
+    message += "\n* YOUR DETAILS:*\n";
+    message += "Please fill in your delivery details:\n";
+    message += "• Name: _[Your Name]_\n";
+    message += "• Address: _[Complete Address]_\n";
+    message += "• Phone: _[Contact Number]_\n";
+    message += "• Preferred delivery time: _[Morning/Afternoon/Evening]_\n\n";
+    
+    // Footer with thank you note
+    message += "Thanks for shopping with us!\n";
+    message += "We'll process your order as soon as we receive your details.";
+    
+    return message;
+  };
+  
+  const generateWhatsAppLink = (phoneNumber, message) => {
+    // Filter out any characters that might break the URL
+    const cleanMessage = message.replace(/&/g, 'and');
+    return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(cleanMessage)}`;
+  };
+
   const handleCheckout = () => {
-    // Here you would implement the checkout process
-    // For now, we'll just log the selected items
-    const itemsToCheckout = cart.items.filter((_, index) => selectedItems.includes(index));
-    console.log("Proceeding to checkout with items:", itemsToCheckout);
-    alert("Proceeding to checkout!");
+    if (selectedItems.length === 0) return;
+    
+    // Format the message with the WhatsApp formatting
+    const message = formatWhatsAppMessage();
+    
+    // Generate the WhatsApp link
+    const phoneNumber = "919999114647";
+    const whatsappUrl = generateWhatsAppLink(phoneNumber, message);
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, "_blank");
   };
 
   const continueShopping = () => {

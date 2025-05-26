@@ -11,17 +11,21 @@ const SubcategoriesPage = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedWeights, setSelectedWeights] = useState({}); // Track selected weight for each item
   const navigate = useNavigate(); // Use navigate hook for programmatic navigation
-const [feedbackMessage, setFeedbackMessage] = useState("");
-const [feedbackType, setFeedbackType] = useState("success");
-
-const showFeedback = (message, type) => {
-  setFeedbackMessage(message);
-  setFeedbackType(type);
-
-  setTimeout(() => {
-    setFeedbackMessage("");
-  }, 3000);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackType, setFeedbackType] = useState("success");
+  const capitalizeSingular = (word) => {
+  if (!word) return "";
+  const singular = word.endsWith("s") ? word.slice(0, -1) : word;
+  return singular.charAt(0).toUpperCase() + singular.slice(1).toLowerCase();
 };
+  const showFeedback = (message, type) => {
+    setFeedbackMessage(message);
+    setFeedbackType(type);
+
+    setTimeout(() => {
+      setFeedbackMessage("");
+    }, 3000);
+  };
 
   useEffect(() => {
     // Fetch subcategories for the selected category
@@ -36,7 +40,7 @@ const showFeedback = (message, type) => {
       .then((response) => {
         const fetchedItems = response.data;
         setItems(fetchedItems);
-        
+
         // Initialize selected weights with default values (first weight option for each item)
         const initialWeights = {};
         fetchedItems.forEach(item => {
@@ -65,29 +69,29 @@ const showFeedback = (message, type) => {
 
     // Get the authentication token from localStorage or wherever it's stored
     const token = localStorage.getItem('authToken'); // Adjust based on how you store the token
-    
+
     // Make the API call with the correct format
-axios.post(
-  `${process.env.REACT_APP_API_URL}/api/cart/add`,
-  null,
-  {
-    params: {
-      itemId: item.id,
-      weightPriceId: selectedWeight.id,
-      quantity: quantity
-    },
-    headers: {
-      Authorization: token ? `Bearer ${token}` : ''
-    }
-  }
-)
-.then(response => {
-  showFeedback(`Added ${item.name} (${selectedWeight.weight}) to cart!`, "success");
-})
-.catch(error => {
-  console.error("Error adding item to cart:", error);
-  showFeedback("Failed to add item to cart. Please try again.", "error");
-});
+    axios.post(
+      `${process.env.REACT_APP_API_URL}/api/cart/add`,
+      null,
+      {
+        params: {
+          itemId: item.id,
+          weightPriceId: selectedWeight.id,
+          quantity: quantity
+        },
+        headers: {
+          Authorization: token ? `Bearer ${token}` : ''
+        }
+      }
+    )
+      .then(response => {
+        showFeedback(`Added ${item.name} (${selectedWeight.weight}) to cart!`, "success");
+      })
+      .catch(error => {
+        console.error("Error adding item to cart:", error);
+        showFeedback("Failed to add item to cart. Please try again.", "error");
+      });
 
   };
 
@@ -103,10 +107,10 @@ axios.post(
   return (
     <div className="subcategories-container">
       {feedbackMessage && (
-  <div className={`feedback-message ${feedbackType}`}>
-    {feedbackMessage}
-  </div>
-)}
+        <div className={`feedback-message ${feedbackType}`}>
+          {feedbackMessage}
+        </div>
+      )}
 
       <h2>
         Choose in <span className="highlight">{categoryName}</span>
@@ -150,13 +154,18 @@ axios.post(
                   e.target.src = "/images/default.jpg";
                 }}
               />
-              <h4>{item.name}</h4>
+              <h4>
+                {capitalizeSingular(item.name)}{" "}
+                {item.subcategory?.name
+                  ? capitalizeSingular(item.subcategory.name)
+                  : ""}
+              </h4>
               <p>{item.description}</p>
-              
+
               {item.weightPrices && item.weightPrices.length > 0 ? (
                 <div className="product-actions">
                   <div className="weight-selector">
-                    <select 
+                    <select
                       value={selectedWeights[item.id]?.id}
                       onChange={(e) => {
                         const selectedWeightPrice = item.weightPrices.find(
@@ -172,19 +181,19 @@ axios.post(
                       ))}
                     </select>
                   </div>
-                  
+
                   <div className="quantity-controls">
-                    <input 
-                      type="number" 
-                      min="1" 
-                      defaultValue="1" 
+                    <input
+                      type="number"
+                      min="1"
+                      defaultValue="1"
                       id={`qty-${item.id}`}
                       className="quantity-input"
                     />
                   </div>
-                  
-                  <button 
-                    className="add-to-cart" 
+
+                  <button
+                    className="add-to-cart"
                     onClick={() => {
                       const quantityInput = document.getElementById(`qty-${item.id}`);
                       const quantity = parseInt(quantityInput?.value || 1);
