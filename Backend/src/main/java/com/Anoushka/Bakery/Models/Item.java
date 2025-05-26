@@ -2,7 +2,7 @@ package com.Anoushka.Bakery.Models;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -30,7 +30,7 @@ public class Item {
 
 	    @ManyToOne
 	    @JoinColumn(name = "subcategory_id", nullable = false)
-	    @JsonBackReference
+	    @JsonIgnoreProperties({"items", "category"})
 	    private Subcategory subcategory;
 	    
 	    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

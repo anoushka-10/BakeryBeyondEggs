@@ -1,0 +1,59 @@
+/* src/assets/Contact.css */
+
+.contact-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff0f5;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(255, 192, 203, 0.3);
+  font-family: 'Segoe UI', sans-serif;
+  color: #4a4a4a;
+}
+
+.contact-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #ff69b4;
+  margin-bottom: 1rem;
+}
+
+.contact-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact-info h2,
+.social-links h2 {
+  color: #d63384;
+  margin-bottom: 0.5rem;
+}
+
+.contact-info p,
+.social-links ul li {
+  font-size: 1rem;
+  margin: 0.3rem 0;
+}
+
+.social-links ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.social-links ul li a {
+  color: #d63384;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-links ul li a:hover {
+  color: #ff1493;
+  text-decoration: underline;
+}

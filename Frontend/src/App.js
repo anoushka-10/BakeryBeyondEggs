@@ -9,7 +9,8 @@ import RegisterForm from "./RegisterForm";
 import CartPage from "./CartPage";
 import Verification from "./EmailVerification";
 import About from "./About";
-import HomePage from "./HomePage"; // Import it
+import HomePage from "./HomePage"; 
+import FounderSection from "./FounderSection";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/about" element={<About />} /> {/* Still here if you want separate About too */}
         <Route path="/subcategories/:subcategoryName/items" element={<ItemsPage />} />
+        <Route path="/founder" element={<FounderSection />} />
+
       </Routes>
     </Router>
   );

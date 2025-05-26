@@ -1,0 +1,119 @@
+/* FounderSection.css */
+.founder-section {
+  background-color: #e6d5f5;
+  padding: 60px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.founder-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 60px;
+}
+
+/* Image Styling */
+.founder-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.founder-image-wrapper {
+  position: relative;
+  width: 380px;
+  height: 380px;
+}
+
+.founder-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 8px solid #d4b6f5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.decorative-circle {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.circle-top {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 214, 102, 0.7);
+  top: -25px;
+  right: -25px;
+}
+
+.circle-bottom {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(241, 130, 186, 0.7);
+  bottom: -30px;
+  left: -30px;
+}
+
+/* Content Styling */
+.founder-content {
+  flex: 1;
+  color: #4a235a;
+}
+
+.founder-heading {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.founder-text {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.founder-quote {
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.founder-button {
+  background-color: #4a235a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.founder-button:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .founder-container {
+    flex-direction: column;
+  }
+  
+  .founder-image-wrapper {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 40px;
+  }
+  
+  .founder-heading {
+    font-size: 36px;
+  }
+}
