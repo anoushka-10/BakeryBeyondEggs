@@ -1,0 +1,58 @@
+.add-item-form {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+}
+
+.add-item-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.add-item-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.add-item-form input,
+.add-item-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.weight-price-section {
+  margin-top: 1rem;
+}
+
+.weight-price-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.weight-price-row input {
+  flex: 1;
+}
+
+.add-item-form button {
+  margin-top: 1rem;
+  padding: 0.7rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-item-form button:hover {
+  background-color: #0056b3;
+}

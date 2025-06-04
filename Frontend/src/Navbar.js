@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
+import { FaBars, FaTimes } from "react-icons/fa";
+
 
 function Navbar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [subDropdownVisible, setSubDropdownVisible] = useState(false);
   const[name, setName]=useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // 🔧
 
   useEffect(()=>{
     const token =localStorage.getItem("authToken");
@@ -39,7 +42,14 @@ function Navbar() {
         />
         <h1 className="navbar-title">BakeryBeyondEggs</h1>
       </div>
-      <ul className="navbar-links">
+      <button
+  className="mobile-menu-toggle"
+  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+>
+  {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+</button>
+
+<ul className={`navbar-links ${mobileMenuOpen ? "open" : ""}`}>
         <li>
           <Link to="/" className="navbar-link">Home</Link>
         </li>

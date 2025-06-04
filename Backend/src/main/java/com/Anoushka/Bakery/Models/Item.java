@@ -16,8 +16,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="items")
 public class Item {
 
@@ -27,6 +33,10 @@ public class Item {
 
 	    @Column(nullable = false)
 	    private String name;
+	    
+	    private String description;
+	    
+	    private String imagepath;
 
 	    @ManyToOne
 	    @JoinColumn(name = "subcategory_id", nullable = false)
@@ -37,60 +47,6 @@ public class Item {
 	    @JsonManagedReference
 	    private List<WeightPrice> weightPrices;
 	    
-	    public Item() {
-			super();
-		}
-
-		private String description;
-
-		public int getId() {
-			return id;
-		}
-
-		public void setId(int id) {
-			this.id = id;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public Subcategory getSubcategory() {
-			return subcategory;
-		}
-
-		public void setSubcategory(Subcategory subcategory) {
-			this.subcategory = subcategory;
-		}
-
-		public List<WeightPrice> getWeightPrices() {
-			return weightPrices;
-		}
-
-		public void setWeightPrices(List<WeightPrice> weightPrices) {
-			this.weightPrices = weightPrices;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public Item(int id, String name, Subcategory subcategory, List<WeightPrice> weightPrices, String description) {
-			super();
-			this.id = id;
-			this.name = name;
-			this.subcategory = subcategory;
-			this.weightPrices = weightPrices;
-			this.description = description;
-		}
-
+	 
 
 }

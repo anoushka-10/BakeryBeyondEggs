@@ -147,13 +147,13 @@ const SubcategoriesPage = () => {
           items.map((item) => (
             <div className="item-card" key={item.id}>
               <img
-                src={`/images/${item.name.toLowerCase().replace(/\s+/g, "")}.jpg`}
-                alt={item.name}
-                className="item-image"
-                onError={(e) => {
-                  e.target.src = "/images/default.jpg";
-                }}
-              />
+  src={`${process.env.REACT_APP_API_URL}${item.imagepath || "/images/default.jpg"}`}
+  alt={item.name}
+  className="item-image"
+  onError={(e) => {
+    e.target.src = "/images/default.jpg";
+  }}
+/>
               <h4>
                 {capitalizeSingular(item.name)}{" "}
                 {item.subcategory?.name

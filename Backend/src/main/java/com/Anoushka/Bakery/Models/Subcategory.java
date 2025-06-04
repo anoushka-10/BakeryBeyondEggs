@@ -14,8 +14,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="subcategories")
 public class Subcategory {
 	
@@ -33,59 +39,13 @@ public class Subcategory {
 	
 	@OneToMany(mappedBy = "subcategory", cascade= CascadeType.ALL, orphanRemoval=true)
 	private List<Item> items;
-	
-	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public List<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-
-	public Subcategory(int id, String name, Category category, List<Item> items) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.items = items;
-	}
-
-	public Subcategory() {
-		
-	}
 
 	public Subcategory(int id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		
 	}
 	
-	
 
+	
 }

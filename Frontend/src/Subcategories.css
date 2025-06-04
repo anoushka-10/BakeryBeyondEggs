@@ -2,6 +2,7 @@
   padding: 20px;
   width: 100%;
   background-color: #257180;
+  
 }
 
 .subcategories-container h2 {
@@ -69,6 +70,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
+
   margin-top: 20px;
 }
 

@@ -13,8 +13,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="categories")
 public class Category {
 
@@ -25,42 +31,13 @@ public class Category {
 	@Column(nullable=false)
 	private String name;
 	
-	
-	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch=FetchType.EAGER,orphanRemoval = true)
 	@JsonManagedReference
 	private List<Subcategory> subcategories;
-	
-	
-    public Category() {
-		
-	}
-    
 
 	public Category(int id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
+	    this.id = id;
+	    this.name = name;
 	}
 
-
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public List<Subcategory> getSubcategories() {
-		return subcategories;
-	}
-	public void setSubcategories(List<Subcategory> subcategories) {
-		this.subcategories = subcategories;
-	}
-	
 }
