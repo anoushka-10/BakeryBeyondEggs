@@ -16,7 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("SELECT new Category(c.id,c.name) FROM Category c")
 	List<Category> findAllCategories();
 
-	@Query("SELECT new com.Anoushka.Bakery.Models.Subcategory(s.id, s.name) FROM Category c JOIN c.subcategories s WHERE c.name = :categoryName")
+	@Query("SELECT new com.Anoushka.Bakery.DTO.SubcategoryDTO(s.id, s.name) FROM Category c JOIN c.subcategories s WHERE c.name = :categoryName")
 	List<Subcategory> findSubcategoriesByCategoryName(@Param("categoryName") String categoryName);
 
 	Category findByName(String categoryName);

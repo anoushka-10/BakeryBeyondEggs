@@ -111,13 +111,14 @@ const showFeedback = (message, type) => {
           items.map((item) => (
             <div className="item-card" key={item.id}>
               <img
-                src={`/images/${item.name.toLowerCase().replace(/\s+/g, "")}.jpg`}
-                alt={item.name}
-                className="item-image"
-                onError={(e) => {
-                  e.target.src = "/images/default.jpg";
-                }}
-              />
+  src={`${process.env.REACT_APP_API_URL}${item.imagepath}`}
+  alt={item.name}
+  className="item-image"
+  onError={(e) => {
+    e.target.src = "/images/default.jpg"; // fallback image
+  }}
+/>
+
               <h4>{item.name}</h4>
               <p>{item.description}</p>
               

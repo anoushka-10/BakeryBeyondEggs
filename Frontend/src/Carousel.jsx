@@ -1,69 +1,43 @@
-// Carousel.jsx
 import React, { useState, useEffect } from 'react';
 import './Carousel.css';
 
-function Carousel({ images, autoplaySpeed = 5000, showIndicators = true, showArrows = true }) {
+const TOTAL_SLIDES = 5; // Match with your total images like car1.jpg to car5.jpg
+
+const Carousel = ({ autoplaySpeed = 4000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Handle automatic slideshow
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isTransitioning) {
-        goToNext();
-      }
-    }, autoplaySpeed);
-    
-    return () => clearInterval(interval);
-  }, [currentIndex, isTransitioning, autoplaySpeed]);
+  const images = Array.from({ length: TOTAL_SLIDES }, (_, i) => ({
+    src: `/images/car${i + 1}.jpg`,
+    alt: `Slide ${i + 1}`
+  }));
 
-  const goToPrevious = () => {
-    if (isTransitioning) return;
-    
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-    
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500); // Match this with CSS transition time
-  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isTransitioning) goToNext();
+    }, autoplaySpeed);
+    return () => clearInterval(timer);
+  }, [currentIndex, isTransitioning]);
 
   const goToNext = () => {
-    if (isTransitioning) return;
-    
     setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-    
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500); // Match this with CSS transition time
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+    setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const goToPrevious = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const goToSlide = (index) => {
-    if (isTransitioning || index === currentIndex) return;
-    
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-    
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500); // Match this with CSS transition time
+    if (index !== currentIndex && !isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex(index);
+      setTimeout(() => setIsTransitioning(false), 500);
+    }
   };
-
-  // If no images are provided
-  if (!images || images.length === 0) {
-    return (
-      <div className="carousel-container">
-        <div className="carousel-slide placeholder">
-          <p>No images to display</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="carousel-container">
@@ -72,57 +46,33 @@ function Carousel({ images, autoplaySpeed = 5000, showIndicators = true, showArr
           className="carousel-track" 
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {images.map((image, index) => (
+          {images.map((img, index) => (
             <div key={index} className="carousel-slide">
-              <img 
-                src={image.src} 
-                alt={image.alt || `Slide ${index + 1}`} 
-                className="carousel-image"
-              />
-              {image.caption && (
-                <div className="carousel-caption">
-                  <h3>{image.caption}</h3>
-                  {image.description && <p>{image.description}</p>}
-                </div>
-              )}
+              <img src={img.src} alt={img.alt} className="carousel-image" />
             </div>
           ))}
         </div>
       </div>
 
-      {showArrows && (
-        <>
-          <button 
-            className="carousel-button carousel-button-prev" 
-            onClick={goToPrevious}
-            aria-label="Previous slide"
-          >
-            &#10094;
-          </button>
-          <button 
-            className="carousel-button carousel-button-next" 
-            onClick={goToNext}
-            aria-label="Next slide"
-          >
-            &#10095;
-          </button>
-        </>
-      )}
+      <button className="carousel-button carousel-button-prev" onClick={goToPrevious} aria-label="Previous">
+        &#10094;
+      </button>
+      <button className="carousel-button carousel-button-next" onClick={goToNext} aria-label="Next">
+        &#10095;
+      </button>
 
-      {showIndicators && (
-        <div className="carousel-indicators">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`carousel-indicator ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      <div className="carousel-indicators">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={`carousel-indicator ${index === currentIndex ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default Carousel;

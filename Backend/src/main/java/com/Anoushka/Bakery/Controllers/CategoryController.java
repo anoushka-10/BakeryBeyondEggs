@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Anoushka.Bakery.DTO.CategoryDTORequest;
+import com.Anoushka.Bakery.DTO.ItemDTO;
 import com.Anoushka.Bakery.Models.Category;
-import com.Anoushka.Bakery.Models.Item;
 import com.Anoushka.Bakery.Models.Subcategory;
 import com.Anoushka.Bakery.Services.CategoryService;
 import com.Anoushka.Bakery.Services.ItemService;
@@ -35,7 +38,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/{categoryName}/items")
-	public List<Item> getItemsByCategory(@PathVariable String categoryName){
+	public List<ItemDTO> getItemsByCategory(@PathVariable String categoryName){
 		return itemservice.getItemsByCategoryName(categoryName);
 	}
 	
@@ -44,5 +47,16 @@ public class CategoryController {
 	        return subcategoryservice.findSubcategoriesByCategoryName(categoryName);
 	    }
 	 
+	 @PostMapping("/addCategory")
+	 public Category addCategory(@RequestBody CategoryDTORequest categoryRequest) {
+		 return categoryservice.addcategory(categoryRequest);
+	 }
 	 
+	 @GetMapping("/getallcategories")
+	 public List<Category> getcategories(){
+		 return categoryservice.getAllCategories();
+	 }
+//	 
+//	 @PostMapping("/addSubcategory")
+//		public Subcategory addSubCategory(@)
 }

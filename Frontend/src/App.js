@@ -11,6 +11,7 @@ import Verification from "./EmailVerification";
 import About from "./About";
 import HomePage from "./HomePage"; 
 import FounderSection from "./FounderSection";
+import AddItemForm from "./AddItemForm";
 
 function App() {
   return (
@@ -20,12 +21,15 @@ function App() {
         <Route path="/" element={<HomePage />} /> {/* Shows CategoriesPage + About */}
         <Route path="/login" element={<Login />} />
         <Route path="/RegisterForm" element={<RegisterForm />} />
+        
         <Route path="/verify" element={<Verification />} />
         <Route path="/categories/:categoryName" element={<SubcategoriesPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/about" element={<About />} /> {/* Still here if you want separate About too */}
         <Route path="/subcategories/:subcategoryName/items" element={<ItemsPage />} />
         <Route path="/founder" element={<FounderSection />} />
+        <Route path="/additem" element={<AddItemForm />} /> 
+
 
       </Routes>
     </Router>
