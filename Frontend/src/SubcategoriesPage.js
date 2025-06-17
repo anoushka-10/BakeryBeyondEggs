@@ -181,7 +181,7 @@ const SubcategoriesPage = () => {
                       ))}
                     </select>
                   </div>
-
+     <div className="quantity-cart-row">
                   <div className="quantity-controls">
                     <input
                       type="number"
@@ -203,6 +203,7 @@ const SubcategoriesPage = () => {
                   >
                     🛒
                   </button>
+                  </div>
                 </div>
               ) : (
                 <p className="error-message">No pricing available</p>

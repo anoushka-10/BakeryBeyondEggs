@@ -4,7 +4,7 @@
   align-items: center; /* Centers the grid vertically */
   flex-direction: column; /* Keeps the content stacked vertically */
   padding: 20px;
-  background-color: #BBD8BC;
+  background-color:#dac7f0;
   
 }
 
@@ -28,7 +28,7 @@
   cursor: pointer;
   transition: transform 0.3s ease;
   border-radius: 8px;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
 }
 
 .category-card:hover {

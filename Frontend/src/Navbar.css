@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8d7e4;
+  background-color:white;
   padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -24,7 +24,7 @@
 .navbar-title {
   font-size: 1.8rem;
   font-family: "Pacifico", cursive;
-  color: #ec407a;
+  color: #3A7D44;
 }
 
 .navbar-links {

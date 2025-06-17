@@ -3,11 +3,11 @@
 
 :root {
   --primary-purple: #4a235a;
-  --light-purple: #e6d5f5;
-  --medium-purple: #9b59b6;
-  --accent-pink: #d4b6f5;
+  --light-purple: white;
+  --medium-purple: #5A827E;
+  --accent-pink: #5A827E;
   --accent-yellow: rgba(255, 214, 102, 0.7);
-  --white: #ffffff;
+  --white: #BBD8BC;
   --text-dark: #2e2e2e;
   --text-light: #555;
 }

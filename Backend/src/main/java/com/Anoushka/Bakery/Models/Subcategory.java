@@ -32,6 +32,9 @@ public class Subcategory {
 	@Column(nullable=false)
 	private String name;
 	
+	@Column(name="image_path") // Add this field for storing image path
+	private String imagePath;
+	
 	@ManyToOne
 	@JoinColumn(name="category_id",nullable=false)
 	@JsonBackReference

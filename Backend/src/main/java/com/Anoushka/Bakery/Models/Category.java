@@ -31,6 +31,9 @@ public class Category {
 	@Column(nullable=false)
 	private String name;
 	
+	@Column(name="image_path") // Add this field for storing image path
+	private String imagePath;
+	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch=FetchType.EAGER,orphanRemoval = true)
 	@JsonManagedReference
 	private List<Subcategory> subcategories;

@@ -1,0 +1,215 @@
+/* AdminForms.css */
+
+.admin-forms-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tab Navigation */
+.form-tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.tab-button.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background-color: #f0f9ff;
+}
+
+/* Message Styles */
+.message {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+.message.success {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.message.error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Container */
+.form-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.form-container h2 {
+  margin: 0 0 1.5rem 0;
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Form Styles */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input[type="file"] {
+  padding: 0.5rem;
+  border: 2px dashed #d1d5db;
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+.form-group input[type="file"]:hover {
+  border-color: #2563eb;
+  background-color: #f0f9ff;
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+/* Submit Button */
+.submit-button {
+  padding: 0.875rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-forms-container {
+    margin: 1rem auto;
+    padding: 0 0.5rem;
+  }
+  
+  .form-container {
+    padding: 1.5rem;
+  }
+  
+  .tab-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-container h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Loading State */
+.submit-button:disabled {
+  position: relative;
+}
+
+.submit-button:disabled::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

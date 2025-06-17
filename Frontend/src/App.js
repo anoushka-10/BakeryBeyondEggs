@@ -8,6 +8,7 @@ import Login from "./Login";
 import RegisterForm from "./RegisterForm";
 import CartPage from "./CartPage";
 import Verification from "./EmailVerification";
+import { AddCategory, AddSubcategory } from './AdminForms';
 import About from "./About";
 import HomePage from "./HomePage"; 
 import FounderSection from "./FounderSection";
@@ -21,7 +22,8 @@ function App() {
         <Route path="/" element={<HomePage />} /> {/* Shows CategoriesPage + About */}
         <Route path="/login" element={<Login />} />
         <Route path="/RegisterForm" element={<RegisterForm />} />
-        
+         <Route path="/admin/add-category" element={<AddCategory />} />
+        <Route path="/admin/add-subcategory" element={<AddSubcategory />} />
         <Route path="/verify" element={<Verification />} />
         <Route path="/categories/:categoryName" element={<SubcategoriesPage />} />
         <Route path="/cart" element={<CartPage />} />
