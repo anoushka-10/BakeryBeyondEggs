@@ -39,7 +39,7 @@ function About() {
       </section>
 
       {/* Philosophy Section */}
-      <section className="about-values">
+      {/* <section className="about-values">
         <h2 className="section-heading">WHAT WE BELIEVE IN</h2>
         <div className="values-grid">
           <div className="value-card">
@@ -59,7 +59,7 @@ function About() {
           </div>
           <div className="gap-card"></div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
