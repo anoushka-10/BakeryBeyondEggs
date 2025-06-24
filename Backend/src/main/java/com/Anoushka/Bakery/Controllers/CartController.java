@@ -7,11 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Anoushka.Bakery.JwtUtil;
+import com.Anoushka.Bakery.DTO.CartIdRequest;
 import com.Anoushka.Bakery.Models.Cart;
 import com.Anoushka.Bakery.Models.User;
 import com.Anoushka.Bakery.Repositories.CartRepository;
@@ -74,5 +77,15 @@ public class CartController {
         User user = getUserFromRequest(request);
         cartService.clearCart(user);
         return ResponseEntity.ok("Cart cleared");
+    }
+    
+    @PostMapping("/deleteItem")
+    public ResponseEntity<String> deleteItemFromCart(
+            @RequestBody CartIdRequest request,
+            @RequestHeader("Authorization") String authHeader) {
+        
+        String email = jwtUtil.extractEmail(authHeader.substring(7));
+        cartService.removeItemFromCart(email, request.getId());
+        return ResponseEntity.ok("Item removed successfully");
     }
 }

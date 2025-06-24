@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.Anoushka.Bakery.Models.Cart;
@@ -17,6 +16,8 @@ import com.Anoushka.Bakery.Repositories.CartRepository;
 import com.Anoushka.Bakery.Repositories.ItemRepository;
 import com.Anoushka.Bakery.Repositories.UserRepository;
 import com.Anoushka.Bakery.Repositories.weightpriceRepo;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CartService {
@@ -100,6 +101,52 @@ public class CartService {
 		cartRepo.delete(cart);
 		
 	}
+	
+//	@Transactional
+//	public void removeItemFromCartByEmail(String email, int cartItemId) {
+//	    // Validate input
+//	    if (email == null || email.trim().isEmpty()) {
+//	        throw new RuntimeException("Email cannot be null or empty");
+//	    }
+//	    
+//	    if (cartItemId <= 0) {
+//	        throw new RuntimeException("Invalid cart item ID: " + cartItemId);
+//	    }
+//
+//	    User user = userRepo.findByEmail(email)
+//	        .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+//
+//	    Cart cart = cartRepo.findByUser(user)
+//	        .orElseThrow(() -> new RuntimeException("Cart not found for user: " + email));
+//
+//	    // First, let's check if the cart item exists in database at all
+//	    Optional<CartItem> cartItemFromDb = cartItemRepo.findById(cartItemId);
+//	    if (cartItemFromDb.isEmpty()) {
+//	        throw new RuntimeException("Cart item with ID " + cartItemId + " does not exist in database");
+//	    }
+//	    
+//	    // Check if this cart item belongs to this user's cart
+//	    CartItem cartItem = cartItemFromDb.get();
+//	    if (cartItem.getCart().getId() != cart.getId()) {
+//	        throw new RuntimeException("Cart item " + cartItemId + " does not belong to user " + email);
+//	    }
+//
+//	    // Now remove from collection and delete
+//	    cart.getItems().removeIf(item -> item.getId() == cartItemId);
+//	    cartItemRepo.deleteById(cartItemId);
+//	    
+//	    // Save cart to update any other changes
+//	    cartRepo.save(cart);
+//	}
 
-   
+	// Alternative method using direct database query (recommended)
+	@Transactional
+	public void removeItemFromCart(String email, int cartItemId) {
+	    // Just delete the cart item directly with a safety check
+	    int deletedRows = cartItemRepo.deleteCartItemSafely(cartItemId, email);
+	    
+	    if (deletedRows == 0) {
+	        throw new RuntimeException("Cart item not found or doesn't belong to user");
+	    }
+	}
 }

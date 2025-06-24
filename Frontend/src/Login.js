@@ -37,6 +37,10 @@ const Login = () => {
       
       const { token } = response.data;
       localStorage.setItem("authToken", token);
+      
+      // Dispatch custom event to notify navbar of auth state change
+      window.dispatchEvent(new Event('authStateChanged'));
+      
       setSuccessMessage("Login successful!");
       console.log("Login successful:", response.data);
       

@@ -124,7 +124,7 @@ const SubcategoriesPage = () => {
             onClick={() => handleSubcategoryClick(subcategory.name)}
             className="subcategory-card"
           >
-            <img
+            {/* <img
               src={`/images/${subcategory.name.toLowerCase().replace(/\s+/g, "")}.jpg`}
               alt={subcategory.name}
               className="subcategory-image"
@@ -132,7 +132,15 @@ const SubcategoriesPage = () => {
                 console.warn(`Image not found: ${e.target.src}, loading default image.`);
                 e.target.src = "/images/default.jpg";
               }}
-            />
+            /> */}
+             <img
+  src={`${process.env.REACT_APP_API_URL}${subcategory.imagePath || "/images/default.jpg"}`}
+  alt={subcategory.name}
+  className="item-image"
+  onError={(e) => {
+    e.target.src = "/images/default.jpg";
+  }}
+/>
             <h3>{subcategory.name}</h3>
           </div>
         ))}

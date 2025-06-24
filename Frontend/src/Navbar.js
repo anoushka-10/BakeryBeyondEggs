@@ -1,36 +1,88 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { FaBars, FaTimes } from "react-icons/fa";
-
 
 function Navbar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [subDropdownVisible, setSubDropdownVisible] = useState(false);
-  const[name, setName]=useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // 🔧
+  const [name, setName] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const location = useLocation(); // This will help us detect route changes
 
-  useEffect(()=>{
-    const token =localStorage.getItem("authToken");
-    if(token){
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/name`,{
-          headers:{
-            Authorization:`Bearer ${token}`
+  // Function to fetch user data
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        // Decode token to get role
+        const decoded = jwtDecode(token);
+        setUserRole(decoded.role);
+        setIsLoggedIn(true);
+
+        // Fetch user name
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/name`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        })
-        .then((res)=>{
-          setName(res.data);
-        })
-        .catch((err)=>{
-          console.error("Error fetching name:", err);
-          localStorage.removeItem("token");
         });
+        setName(response.data);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        // Clear invalid token
+        localStorage.removeItem("authToken");
+        setIsLoggedIn(false);
+        setName("");
+        setUserRole(null);
+      }
+    } else {
+      // No token found
+      setIsLoggedIn(false);
+      setName("");
+      setUserRole(null);
     }
-  },[]);
+  };
 
-  const isLoggedIn = !!localStorage.getItem("authToken");
+  // Fetch user data on component mount and when location changes
+  useEffect(() => {
+    fetchUserData();
+  }, [location]); // Adding location as dependency will refresh navbar when route changes
+
+  // Also listen for storage changes (useful if user logs out in another tab)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      fetchUserData();
+    };
+
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for a custom event we'll dispatch after login
+    window.addEventListener('authStateChanged', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('authStateChanged', handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsLoggedIn(false);
+    setName("");
+    setUserRole(null);
+    
+    // Dispatch custom event to update other components if needed
+    window.dispatchEvent(new Event('authStateChanged'));
+    
+    // Reload page to ensure clean state
+    window.location.reload();
+  };
 
   return (
     <nav className="navbar">
@@ -42,14 +94,15 @@ function Navbar() {
         />
         <h1 className="navbar-title">BakeryBeyondEggs</h1>
       </div>
+      
       <button
-  className="mobile-menu-toggle"
-  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
->
-  {mobileMenuOpen ? <FaTimes /> : <FaBars />}
-</button>
+        className="mobile-menu-toggle"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </button>
 
-<ul className={`navbar-links ${mobileMenuOpen ? "open" : ""}`}>
+      <ul className={`navbar-links ${mobileMenuOpen ? "open" : ""}`}>
         <li>
           <Link to="/" className="navbar-link">Home</Link>
         </li>
@@ -93,54 +146,64 @@ function Navbar() {
               <li>
                 <Link to="/categories" className="dropdown-link">View All</Link>
               </li>
-             
             </ul>
           )}
         </li>
         <li>
           <Link to="/gift-options" className="navbar-link">Gift Options</Link>
         </li>
-          <li>
-                <Link to="/cart" className="navbar-link">Cart</Link>
-              </li>
-        {/* <li><Link to="/login" className="navbar-link">Login</Link></li>
-        <li><Link to="/registerform" className="navbar-link">Register</Link></li> */}
-       {isLoggedIn ? (
-  <>
-    <li className="navbar-link">Welcome, {name}!</li>
-    <li>
-      <button
-        className="navbar-link logout-button"
-        onClick={() => {
-          localStorage.removeItem("authToken");
-          window.location.reload(); // refresh to update navbar or use navigate
-        }}
-      >
-        Logout
-      </button>
-    </li>
-  </>
-) : (
-  <>
-    <li>
-      <Link to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} className="navbar-link">
-        Login
-      </Link>
-    </li>
-    <li>
-      <Link to="/registerform" className="navbar-link">
-        Register
-      </Link>
-    </li>
-  </>
-)}
+        <li>
+          <Link to="/cart" className="navbar-link">Cart</Link>
+        </li>
+        
+        {/* Admin Links */}
+        {userRole === "ADMIN" && (
+          <>
+            <li>
+              <Link to="/admin/add-category" className="navbar-link">Add Category</Link>
+            </li>
+            <li>
+              <Link to="/admin/add-subcategory" className="navbar-link">Add SubCategory</Link>
+            </li>
+            <li>
+              <Link to="/additem" className="navbar-link">Add Item</Link>
+            </li>
+          </>
+        )}
 
-
+        {/* Auth Links */}
+        {isLoggedIn ? (
+          <>
+            <li className="navbar-link">Welcome, {name}!</li>
+            <li>
+              <button
+                className="navbar-link logout-button"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link 
+                to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} 
+                className="navbar-link"
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/registerform" className="navbar-link">
+                Register
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
-    
   );
 }
 
 export default Navbar;
-                                                    

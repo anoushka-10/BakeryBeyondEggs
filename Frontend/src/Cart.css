@@ -167,6 +167,7 @@
   accent-color: #e91e63;
 }
 
+
 /* Item Image */
 .cart-item-image {
   width: 4rem;
@@ -183,8 +184,12 @@
 .cart-item-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;  /* use 'contain' instead of 'cover' */
+  border-radius: 0.25rem;
 }
+
+
+
 
 /* Item Details */
 .item-details {
@@ -372,4 +377,9 @@
   .item-name {
     font-size: 1rem;
   }
+}
+.select-all-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 }

@@ -350,15 +350,117 @@
     padding: 8px;
   }
   
+ /* Items section with proper layout - FIXED */
+.items-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 400px)); /* Changed: Added max width */
+  gap: 24px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1200px; /* Changed: Set specific max-width instead of 100vw */
+  margin: 20px auto 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  justify-content: center; /* Added: Center the cards when there are few items */
+}
+
+.item-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px; /* Added: Prevent cards from getting too wide */
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+}
+
+/* Large screens - optimize card distribution - UPDATED */
+@media (min-width: 1200px) {
   .items-list {
-    padding: 0 8px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 380px)); /* Changed: Added max width */
+    max-width: 1200px; /* Changed: Set specific max-width */
+    gap: 30px;
+    padding: 0 30px;
+    justify-content: center; /* Added: Center alignment */
+  }
+  
+  .item-card {
+    max-width: 380px; /* Added: Consistent max width */
+  }
+  
+  .item-image {
+    height: 280px !important;
+    min-height: 280px;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .items-list {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 370px)); /* Changed: Added max width */
+    max-width: 1200px; /* Changed: Set specific max-width */
+    gap: 30px;
+    padding: 0 25px;
+    justify-content: center; /* Added: Center alignment */
+  }
+  
+  .item-card {
+    max-width: 370px; /* Added: Consistent max width */
+  }
+  
+  .item-image {
+    height: 260px !important;
+    min-height: 260px;
+    width: 100% !important;
+  }
+}
+
+/* Tablet styles - UPDATED */
+@media (max-width: 899px) {
+  .items-list {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 360px)); /* Changed: Added max width */
+    gap: 20px;
+    padding: 0 16px;
+    max-width: 1200px; /* Changed: Set specific max-width */
+    justify-content: center; /* Added: Center alignment */
+  }
+  
+  .item-card {
+    padding: 16px;
+    min-height: 450px;
+    max-width: 360px; /* Added: Consistent max width */
+  }
+  
+  .item-image {
+    height: 220px !important;
+    min-height: 220px;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Mobile styles remain mostly the same since they use 1fr */
+@media (max-width: 480px) {
+  .items-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 12px;
     max-width: 100vw;
   }
   
   .item-card {
-    padding: 12px;
+    padding: 16px;
+    margin: 0;
+    width: 100%;
+    min-height: 420px;
+    max-width: none; /* Allow full width on mobile */
   }
-  
+}
   /* Fixed very small mobile image sizing */
   .item-image {
     height: 180px !important;

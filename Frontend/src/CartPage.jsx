@@ -40,14 +40,15 @@ const CartPage = () => {
     updatedCart.items[index].quantity = newQuantity;
     setCart(updatedCart);
 
-    // In a real implementation, you would update the quantity on the server as well
+    // Update the quantity on the server
     updateCartItemOnServer(index, newQuantity);
   };
 
   const updateCartItemOnServer = async (index, quantity) => {
     try {
       const token = localStorage.getItem("authToken");
-      const itemId = cart.items[index].item._id;
+      const item = cart.items[index].item;
+      const itemId = item.id; // Spring Boot JPA ID
       
       await axios.put(
         `${process.env.REACT_APP_API_URL}/api/cart/item/${itemId}`,
@@ -63,32 +64,32 @@ const CartPage = () => {
     }
   };
 
-  const removeItem = async (index) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const itemId = cart.items[index].item._id;
-      
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/cart/item/${itemId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  const deleteCartItem = async (cartItemId) => {
+  try {
+    const token = localStorage.getItem("authToken"); // Or however you're storing it
 
-      // Update local state
-      const updatedCart = { ...cart };
-      updatedCart.items = updatedCart.items.filter((_, i) => i !== index);
-      setCart(updatedCart);
-      
-      // Update selected items
-      setSelectedItems(selectedItems.filter(i => i !== index).map(i => i > index ? i - 1 : i));
-      
-    } catch (error) {
-      console.error("Failed to remove cart item:", error);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/deleteItem`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ id: cartItemId })
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete item from cart");
     }
-  };
+
+    const result = await response.text(); // Because you return a plain string
+    console.log(result); // "Item removed from cart"
+
+    // Optionally refresh cart items
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 
   const toggleItemSelection = (index) => {
     setSelectedItems(prev => {
@@ -130,11 +131,7 @@ const CartPage = () => {
     const shipping = calculateShipping();
     const total = calculateTotal();
 
-    // Use WhatsApp text formatting:
-    // *bold* _italic_ ~strikethrough~ ```monospace```
-    // We'll also use Unicode symbols that are well-supported across devices
-    
-    let message = "* NEW ORDER REQUEST*\n\n";
+    let message = "*🛒 NEW ORDER REQUEST*\n\n";
     
     // Items section with better formatting
     message += "*📋 ORDER ITEMS:*\n";
@@ -150,13 +147,13 @@ const CartPage = () => {
     });
     
     // Price details with clean formatting
-    message += "\n* PRICE SUMMARY:*\n";
+    message += "\n*💰 PRICE SUMMARY:*\n";
     message += `• Subtotal: ₹${subtotal.toFixed(2)}\n`;
-    message += `• Shipping: ₹${shipping.toFixed(2)}${shipping === 0 ? ' ✓ FREE' : ''}\n`;
+    message += `• Shipping: ₹${shipping.toFixed(2)}${shipping === 0 ? ' ✅ FREE' : ''}\n`;
     message += `• *TOTAL AMOUNT: ₹${total.toFixed(2)}*\n`;
     
     // Customer details section
-    message += "\n* YOUR DETAILS:*\n";
+    message += "\n*📋 YOUR DETAILS:*\n";
     message += "Please fill in your delivery details:\n";
     message += "• Name: _[Your Name]_\n";
     message += "• Address: _[Complete Address]_\n";
@@ -164,34 +161,31 @@ const CartPage = () => {
     message += "• Preferred delivery time: _[Morning/Afternoon/Evening]_\n\n";
     
     // Footer with thank you note
-    message += "Thanks for shopping with us!\n";
+    message += "Thanks for shopping with us! 🙏\n";
     message += "We'll process your order as soon as we receive your details.";
     
     return message;
   };
   
   const generateWhatsAppLink = (phoneNumber, message) => {
-    // Filter out any characters that might break the URL
     const cleanMessage = message.replace(/&/g, 'and');
     return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(cleanMessage)}`;
   };
 
   const handleCheckout = () => {
-    if (selectedItems.length === 0) return;
+    if (selectedItems.length === 0) {
+      alert("Please select at least one item to checkout.");
+      return;
+    }
     
-    // Format the message with the WhatsApp formatting
     const message = formatWhatsAppMessage();
-    
-    // Generate the WhatsApp link
     const phoneNumber = "919999114647";
     const whatsappUrl = generateWhatsAppLink(phoneNumber, message);
     
-    // Open WhatsApp in a new tab
     window.open(whatsappUrl, "_blank");
   };
 
   const continueShopping = () => {
-    // Navigate back to the products page
     window.location.href = "/products";
   };
 
@@ -231,12 +225,13 @@ const CartPage = () => {
         </div>
         
         <Cart 
-          items={cart.items} 
-          selectedItems={selectedItems}
-          onQuantityChange={handleQuantityChange}
-          onRemoveItem={removeItem}
-          onToggleSelection={toggleItemSelection}
-        />
+  items={cart.items} 
+  selectedItems={selectedItems}
+  onQuantityChange={handleQuantityChange}
+  onRemoveItem={deleteCartItem} // <-- This was wrong before
+  onToggleSelection={toggleItemSelection}
+/>
+
 
         <div className="cart-summary">
           <div className="summary-row">
@@ -248,7 +243,7 @@ const CartPage = () => {
             <span>₹{calculateShipping().toFixed(2)}</span>
           </div>
           {calculateShipping() === 0 && (
-            <p className="shipping-note">You qualified for free shipping!</p>
+            <p className="shipping-note">You qualified for free shipping! 🎉</p>
           )}
           <div className="summary-row" style={{ marginTop: "1rem", fontSize: "1.25rem", fontWeight: "600" }}>
             <span>Total</span>
@@ -262,7 +257,7 @@ const CartPage = () => {
             onClick={handleCheckout}
             disabled={selectedItems.length === 0}
           >
-            Proceed to Checkout
+            Proceed to Checkout ({selectedItems.length} items)
           </button>
         </div>
 

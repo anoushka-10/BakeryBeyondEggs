@@ -2,25 +2,47 @@ import React from "react";
 import { Minus, Plus, X } from "lucide-react";
 
 const Cart = ({ items, selectedItems, onQuantityChange, onRemoveItem, onToggleSelection }) => {
-  // // Function to get a placeholder image based on item name
-  // const getItemImage = (itemName) => {
-  //   // This would ideally be replaced with actual product images
-  //   // For now, we'll use a placeholder with a consistent color based on the name
-  //   const hash = [...itemName].reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  //   const hue = hash % 360;
-  //   return `/api/placeholder/400/400?text=${encodeURIComponent(itemName.substring(0, 2))}&bgcolor=hsl(${hue},70%,80%)`;
-  // };
+  const allSelected = selectedItems.length === items.length && items.length > 0;
 
- 
+  const onSelectAll = () => {
+    const allIndices = items.map((_, index) => index);
+    // Call the parent's toggle function for each item that's not selected
+    allIndices.forEach(index => {
+      if (!selectedItems.includes(index)) {
+        onToggleSelection(index);
+      }
+    });
+  };
+
+  const onDeselectAll = () => {
+    // Call the parent's toggle function for each selected item to deselect it
+    selectedItems.forEach(index => {
+      onToggleSelection(index);
+    });
+  };
+
   return (
     <div className="cart-items-container">
+      <div className="select-all-container">
+        <input
+          type="checkbox"
+          className="item-checkbox"
+          checked={allSelected}
+          onChange={() => allSelected ? onDeselectAll() : onSelectAll()}
+          aria-label="Select or Deselect All"
+        />
+        <label style={{ marginLeft: '0.5rem' }}>
+          {allSelected ? 'Deselect All' : 'Select All'} ({selectedItems.length}/{items.length})
+        </label>
+      </div>
+
       {items.map((itemWrapper, index) => {
         const item = itemWrapper.item;
         const weightPrice = itemWrapper.weightPrice;
         const isSelected = selectedItems.includes(index);
 
         return (
-          <div className={`cart-item ${isSelected ? 'selected' : ''}`} key={index}>
+          <div className={`cart-item ${isSelected ? 'selected' : ''}`} key={`${item.id}-${index}`}>
             <div className="item-select">
               <input
                 type="checkbox"
@@ -32,12 +54,14 @@ const Cart = ({ items, selectedItems, onQuantityChange, onRemoveItem, onToggleSe
             </div>
             
             <div className="cart-item-image">
-              <img 
-                src={`/images/${item.name.toLowerCase().replace(/\s+/g, "")}.jpg`}
+              <img
+                src={`${process.env.REACT_APP_API_URL}${item.imagepath || "/images/default.jpg"}`}
                 alt={item.name}
                 onError={(e) => {
+                  e.target.onerror = null;
                   e.target.src = "/images/default.jpg";
                 }}
+                className="item-image"
               />
             </div>
             
@@ -73,9 +97,12 @@ const Cart = ({ items, selectedItems, onQuantityChange, onRemoveItem, onToggleSe
             </div>
             
             <div className="remove-button-container">
-              <button 
+              <button
                 className="remove-button"
-                onClick={() => onRemoveItem(index)}
+                onClick={() => {
+                  console.log("Removing item at index:", index, "Item ID:", item.id);
+                  onRemoveItem(index);
+                }}
                 aria-label={`Remove ${item.name} from cart`}
               >
                 <X size={18} />

@@ -47,6 +47,14 @@ public class Subcategory {
 		super();
 		this.id = id;
 		this.name = name;
+
+	}
+
+	public Subcategory(int id, String name, String imagePath) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imagePath = imagePath;
 	}
 	
 
