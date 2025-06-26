@@ -1,6 +1,6 @@
 # 🧁 Bakery Beyond Eggs
 
-**Bakery Beyond Eggs** is a full-stack web application built for a home-based bakery that specializes in 100% eggless desserts. Designed to reflect trust, hygiene, and artisanal quality, this project bridges the gap between a traditional small business and the digital space.
+**Bakery Beyond Eggs** is a full-stack web application built for a home-based bakery that specializes in 100% eggless desserts.
 
 > 💡 Real client. Real deployment. Real impact.
 
