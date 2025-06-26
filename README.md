@@ -1,8 +1,8 @@
 # 🧁 Bakery Beyond Eggs
 
-**Bakery Beyond Eggs** is a live website built for a homegrown bakery that specializes in delicious, 100% eggless cakes and desserts. The project was designed and developed from scratch with a focus on user trust, brand storytelling, and clean user experience.
+**Bakery Beyond Eggs** is a full-stack web application built for a home-based bakery that specializes in 100% eggless desserts. Designed to reflect trust, hygiene, and artisanal quality, this project bridges the gap between a traditional small business and the digital space.
 
-> 🌟 Real business. Real impact. Real code.
+> 💡 Real client. Real deployment. Real impact.
 
 ---
 
@@ -11,43 +11,55 @@
 
 ---
 
+## 🔧 Tech Stack
+
+| Layer        | Tech                                      |
+|--------------|-------------------------------------------|
+| **Frontend** | React.js                                  |
+| **Backend**  | Spring Boot                               |
+| **Caching**  | Redis                                     |
+| **Hosting**  | Hostinger (Linux shared hosting with custom deployment setup) |
+| **Domain**   | Custom domain via GoDaddy                 |
+
+---
+
 ## 📌 Features
 
-- 🧁 **Showcase of Eggless Products** — Clean, visual layout of cakes, pastries, and specials.
-- 📱 **Responsive Design** — Optimized for mobile, tablet, and desktop viewing.
-- 💬 **Business Storytelling** — Brings out the brand's emphasis on hygiene, tradition, and flavor.
-- 📞 **Easy Contact Options** — Users can reach out via WhatsApp or Instagram directly.
-- 🌿 **Minimal UI** — Soft color palette to reflect the brand’s values of purity and simplicity.
+- 🧁 **Showcase of Eggless Products** — Display cakes, cupcakes, and treats beautifully
+- 🔄 **Spring Boot Backend** — Handles API requests cleanly and efficiently
+- ⚡ **Redis Caching** — Optimizes performance and speeds up data fetches
+- 📱 **Mobile-Friendly UI** — Works across all device sizes
+- 🤝 **Easy Contact Options** — Connect through WhatsApp and Instagram instantly
+- 🧼 **Clean Brand Design** — Reflects trust, hygiene, and customer care
 
 ---
 
-## 💻 Tech Stack
+## 🎯 Project Goals
 
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Deployment:** Netlify / Vercel (or wherever it's hosted)
-- **Design:** Canva (for brand visuals), Figma (if applicable)
-
-> *(If you're working on or planning a backend/API integration, you can mention it here too.)*
+- Digitize a local business with an elegant and accessible website
+- Learn and implement a **complete full-stack architecture**
+- Focus on **real deployment challenges** (domain, hosting, caching, production readiness)
 
 ---
 
-## 🎯 The Goal
+## 👩🏻‍💻 My Role
 
-To help a local bakery transition into the digital world—so their beautiful desserts could reach more people, build trust through visuals, and offer easy ways to connect.
-
----
-
-## 👩🏻‍💻 Role & Contribution
-
-- Handled the **entire development cycle** from wireframes to deployment.
-- Collaborated with a non-tech business owner to translate their vision into a website.
-- Ensured the site was **lightweight, fast-loading**, and brand-aligned.
-- Wrote clean, maintainable code with an eye for detail and accessibility.
+- Full ownership of frontend, backend, and deployment
+- Built responsive React frontend tailored to the brand
+- Developed REST APIs in Spring Boot
+- Configured Redis caching for optimized speed
+- Deployed entire application on **Hostinger**, with domain + backend + frontend integration
 
 ---
 
 ## 🛠 Future Enhancements
 
-- Adding a **dynamic order form** for custom cakes.
-- Integrating **basic backend** for product listings and updates.
-- Improving SEO and analytics tracking.
+- Add dynamic content management via admin panel
+- Enable custom order form with backend processing
+- Add product-level analytics using basic tracking tools
+- Move to microservices or Dockerized deployment (if scaling needed)
+
+---
+
+## 🤍 Built With Purpose
+
