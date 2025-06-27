@@ -179,7 +179,7 @@ const CartPage = () => {
     }
     
     const message = formatWhatsAppMessage();
-    const phoneNumber = "919999114647";
+    const phoneNumber = "919999114427";
     const whatsappUrl = generateWhatsAppLink(phoneNumber, message);
     
     window.open(whatsappUrl, "_blank");

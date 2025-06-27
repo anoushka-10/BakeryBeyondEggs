@@ -93,9 +93,9 @@ const Login = () => {
               className="form-input"
               placeholder="Enter your password"
             />
-            <div className="forgot-password">
+            {/* <div className="forgot-password">
               <a href="/forgot-password">Forgot password?</a>
-            </div>
+            </div> */}
           </div>
           
           <button 
@@ -115,7 +115,7 @@ const Login = () => {
           
           <div className="auth-links">
             <p>
-              Don't have an account? <a href="/register">Register now</a>
+              Don't have an account? <a href="/registerform">Register now</a>
             </p>
           </div>
         </form>

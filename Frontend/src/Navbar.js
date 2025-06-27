@@ -114,7 +114,7 @@ function Navbar() {
           onMouseEnter={() => setDropdownVisible(true)}
           onMouseLeave={() => setDropdownVisible(false)}
         >
-          <span className="navbar-link">Categories</span>
+          {/* <span className="navbar-link">Categories</span> */}
           {dropdownVisible && (
             <ul className="dropdown-menu">
               <li
@@ -149,9 +149,9 @@ function Navbar() {
             </ul>
           )}
         </li>
-        <li>
+        {/* <li>
           <Link to="/gift-options" className="navbar-link">Gift Options</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/cart" className="navbar-link">Cart</Link>
         </li>
