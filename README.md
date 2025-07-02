@@ -52,12 +52,7 @@
 
 ---
 
-## 🛠 Future Enhancements
 
-- Add dynamic content management via admin panel
-- Enable custom order form with backend processing
-- Add product-level analytics using basic tracking tools
-- Move to microservices or Dockerized deployment (if scaling needed)
 
 ---
 
